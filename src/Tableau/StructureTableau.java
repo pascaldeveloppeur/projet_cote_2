@@ -14,6 +14,29 @@ public abstract class StructureTableau<T> implements IFilePile<T> {
     private int pointeurPush = 0;
     private int pointeurPop = 0;
 
+
+    /**
+     * Default constructor for the FilePile class.
+     * Initializes the internal array with the default size.
+     */
+    public StructureTableau() {
+        this(tailleDefaut);
+    }
+
+    /**
+     * Constructs an instance of the FilePile class with a specified size.
+     * If the provided size is less than or equal to zero, the default size will be used instead.
+     *
+     * @param taille the desired size of the internal array for the FilePile
+     */
+    public StructureTableau(int taille) {
+        if (taille <= 0) {
+            System.out.println("Taille de la pile est invalide, on utilisera donc la taille par défaut");
+            tailleDepart = tailleDefaut;
+        } else
+            tailleDepart = taille;
+        tableau = (T[]) new Object[taille];
+    }
     public T[] getTableau() {
         return tableau;
     }
@@ -52,29 +75,6 @@ public abstract class StructureTableau<T> implements IFilePile<T> {
 
     public void setPointeurPop(int pointeurPop) {
         this.pointeurPop = pointeurPop;
-    }
-
-    /**
-     * Default constructor for the FilePile class.
-     * Initializes the internal array with the default size.
-     */
-    public StructureTableau() {
-        this(tailleDefaut);
-    }
-
-    /**
-     * Constructs an instance of the FilePile class with a specified size.
-     * If the provided size is less than or equal to zero, the default size will be used instead.
-     *
-     * @param taille the desired size of the internal array for the FilePile
-     */
-    public StructureTableau(int taille) {
-        if (taille <= 0) {
-            System.out.println("Taille de la pile est invalide, on utilisera donc la taille par défaut");
-            tailleDepart = tailleDefaut;
-        } else
-            tailleDepart = taille;
-        tableau = (T[]) new Object[taille];
     }
 
 

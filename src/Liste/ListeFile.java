@@ -5,15 +5,16 @@ import Interface.IFilePile;
 
 import java.util.Optional;
 
-public class ListeFile<T> extends StructureListe<T>  {
+public class ListeFile<T> extends StructureListe<T> implements IFilePile<T> {
 
 
-    private ListeFile(T info) {
+    public ListeFile(T info) {
         super(info);
 
     }
 
     public ListeFile() {
+
 
     }
 

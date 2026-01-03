@@ -30,7 +30,7 @@ public abstract class StructureListe<T> implements IFilePile<T> {
         }
     }
     public ListeElement<T> trouveLeReferent(ListeElement<T> reference) {
-        ListeElement<T> p = this.noeud;
+        ListeElement<T> p = this.getNoeud();
         while (p.getSuivant() != reference) {
             p = p.getSuivant();
         }

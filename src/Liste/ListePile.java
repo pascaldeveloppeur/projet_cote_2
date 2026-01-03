@@ -4,11 +4,12 @@ import Interface.IFilePile;
 
 import java.util.Optional;
 
-public class ListePile<T> extends StructureListe<T>  {
+public class ListePile<T> extends StructureListe<T> implements IFilePile<T> {
 
 
 
-
+    public ListePile() {
+    }
     public ListePile(T info) {
         super(info);
     }

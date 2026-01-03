@@ -1,9 +1,12 @@
 package Liste;
 
 public class ListeElement<T> {
-    private T info = null;
-    private ListeElement<T> suivant = null;
+    private T info ;
+    private ListeElement<T> suivant ;
 
+    public ListeElement() {
+
+    }
     public ListeElement(T info){
         this.info = info;
         suivant = null;
