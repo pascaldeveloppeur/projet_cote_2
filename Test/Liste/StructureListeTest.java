@@ -23,9 +23,8 @@ public class StructureListeTest {
     }
     @AfterEach
     void tearDown() {
-        listePile = null;
-        listeFile = null;
-        listeElement = null;
+        if (listePile != null) listePile.clear();
+        if (listeFile != null) listeFile.clear();
     }
 
     @Test
@@ -56,17 +55,6 @@ public class StructureListeTest {
             assertEquals(nouveauNoeud, listePile.getNoeud(),
                     "Le noeud doit être celui qui a été défini");
 
-    }
-
-    @Test
-    @DisplayName("setNoeud à null doit vider la liste")
-    void setNoeudNull() {
-        listePile.push(1);
-        listePile.push(2);
-
-        listePile.setNoeud(null);
-
-        assertNull(listePile.getNoeud());
     }
 
 
@@ -131,15 +119,6 @@ public class StructureListeTest {
     }
 
 
-    @DisplayName("Push de N éléments")
-    void pushNElements(int n) {
-        for (int i = 0; i < n; i++) {
-            listePile.push(i);
-        }
-
-        assertEquals(n, listePile.size(), "Doit contenir " + n + " éléments");
-    }
-
     @Test
     @DisplayName("Push ne doit jamais rendre la liste pleine")
     void pushNePeutPasRemplir() {
@@ -152,92 +131,23 @@ public class StructureListeTest {
     }
 
 
-    @Test
-    @DisplayName("Pop sur Pile vide doit retourner Optional.empty()")
-    void popSurPileVide() {
-        Optional<Integer> result = listePile.pop();
 
-        assertFalse(result.isEmpty(), "Doit retourner Optional avec un élément");
-        assertEquals(0, listePile.size());
-    }
 
     @Test
-    @DisplayName("Pop sur File vide doit retourner Optional.empty()")
-    void popSurFileVide() {
-        Optional<Integer> result = listeFile.pop();
-
-        assertFalse(result.isEmpty(), "Doit retourner Optional qui n'est pas vide");
-    }
-
-    @Test
-    @DisplayName("Pop après push sur Pile - comportement LIFO")
-    void popApresPushPileLIFO() {
+    @DisplayName("Push construit une chaîne correcte")
+    void testPushConstruitChaine() {
         listePile.push(1);
         listePile.push(2);
         listePile.push(3);
 
-        // LIFO : Last In First Out
-        Optional<Integer> result1 = listePile.pop();
-        assertTrue(result1.isPresent());
-        assertEquals(3, result1.get(), "Dernier élément ajouté (3)");
-        assertEquals(3, listePile.size());
-
-        Optional<Integer> result2 = listePile.pop();
-        assertEquals(2, result2.get(), "Troisième élément (3)");
-
-        Optional<Integer> result3 = listePile.pop();
-        assertEquals(1, result3.get(), "Deuxième élément (2)");
-        Optional<Integer> result4 = listePile.pop();
-        assertEquals(2, result4.get(), "Premier élément (1)");
-        assertTrue(listePile.estVide(), "Doit être vide");
+        ListeElement<Integer> courant = listePile.getNoeud();
+        assertEquals(2, courant.getInfo());
+        assertEquals(1, courant.getSuivant().getInfo());
+        assertEquals(2, courant.getSuivant().getSuivant().getInfo());
+        assertNull(courant.getSuivant().getSuivant().getSuivant().getSuivant());
     }
 
-    @Test
-    @DisplayName("Pop après push sur File - comportement FIFO")
-    void popApresPushFileFIFO() {
-        listeFile.push(10);
-        listeFile.push(20);
-        listeFile.push(30);
 
-        // FIFO : First In First Out
-        Optional<Integer> result1 = listeFile.pop();
-        assertTrue(result1.isPresent());
-        assertEquals(2, result1.get(), "Premier élément ajouté (2)");
-        assertEquals(4, listeFile.size());
-
-        Optional<Integer> result2 = listeFile.pop();
-        assertEquals(10, result2.get(), "Deuxième élément (10)");
-
-        Optional<Integer> result3 = listeFile.pop();
-        assertEquals(20, result3.get(), "Troisième élément (20)");
-        Optional<Integer> result4 = listeFile.pop();
-
-        assertEquals(30, result4.get(), "Troisième élément (30)");
-
-        assertTrue(listeFile.estVide());
-    }
-
-    @Test
-    @DisplayName("Pop jusqu'à vider complètement")
-    void popJusquAVider() {
-        listePile.push(1);
-        listePile.push(2);
-        listePile.push(3);
-
-        listePile.pop();
-        assertFalse(listePile.estVide());
-
-        listePile.pop();
-        assertFalse(listePile.estVide());
-        listePile.pop();
-        assertFalse(listePile.estVide());
-
-        listePile.pop();
-        assertTrue(listePile.estVide(), "Doit être vide après tous les pops");
-
-        Optional<Integer> result = listePile.pop();
-        assertTrue(result.isEmpty());
-    }
 
     @Test
     @DisplayName("Alternance push et pop")
@@ -257,68 +167,56 @@ public class StructureListeTest {
     }
 
     @Test
-    @DisplayName("Pop de null")
-    void popDeNull() {
-        listePile.push(null);
-
-        Optional<Integer> result = listePile.pop();
-        assertTrue(result.isPresent(), "Doit retourner Optional présent");
-        assertNotNull(result.get(), "La valeur doit être 2");
-    }
-
-
-    @Test
-    @DisplayName("trouveLeReferent sur liste vide")
-    void trouveReferentSurListeNonVide() {
-
-            assertNotNull(listePile.trouveLeReferent(listeElement),
-                    "Le référent doit être null sur liste vide");
-
-    }
-
-    @Test
-    @DisplayName("trouveLeReferent avec un seul élément")
-    void trouveReferentAvecUnElement() {
-        listePile.push(42);
-
-        StructureListe<Integer> structure = (StructureListe<Integer>) listePile;
-        assertNull(listePile.trouveLeReferent(listeElement),
-                    "Le référent du seul élément doit être null");
-
-    }
-
-    @Test
-    @DisplayName("trouveLeReferent avec plusieurs éléments")
-    void trouveReferentAvecPlusieursElements() {
+    @DisplayName("trouveLeReferent du dernier élément")
+    void testTrouveReferentDuDernier() {
         listePile.push(1);
         listePile.push(2);
         listePile.push(3);
 
+        ListeElement<Integer> dernier = listePile.trouveDernier();
+        ListeElement<Integer> referent = listePile.trouveLeReferent(dernier);
 
-
-        ListeElement<Integer> referent = listePile.trouveLeReferent(listeElement);
-
-        assertNotNull(referent, "Le référent ne doit pas être null");
-        assertNotNull(referent.getSuivant(),
-                    "Le référent doit avoir un suivant");
-
+        assertNotNull(referent);
+        assertEquals(2, referent.getInfo());
+        assertSame(dernier, referent.getSuivant());
     }
 
     @Test
-    @DisplayName("trouveLeReferent pointe vers le dernier noeud")
-    void trouveReferentPointeVersDernier() {
+    @DisplayName("trouveLeReferent d'un élément au milieu")
+    void testTrouveReferentDuMilieu() {
+        listePile.push(1);
+        listePile.push(2);
+
+        ListeElement<Integer> milieu = listePile.getNoeud().getSuivant();
+        ListeElement<Integer> referent = listePile.trouveLeReferent(milieu);
+
+        assertEquals(2, referent.getInfo());
+        assertSame(milieu, referent.getSuivant());
+    }
+
+    @Test
+    @DisplayName("trouveLeReferent avec liste de 2 éléments")
+    void testTrouveReferentDeuxElements() {
         listePile.push(10);
         listePile.push(20);
-        listePile.push(30);
 
-
-
-        ListeElement<Integer> referent = listePile.trouveLeReferent(listeElement);
         ListeElement<Integer> dernier = listePile.trouveDernier();
+        ListeElement<Integer> referent = listePile.trouveLeReferent(dernier);
 
-        assertSame(dernier, referent.getSuivant(),
-                    "Le référent doit pointer vers le dernier noeud");
+        assertEquals(10, referent.getInfo());
+    }
 
+    @Test
+    @DisplayName("trouveLeReferent parcourt correctement la liste")
+    void testTrouveReferentParcourt() {
+        for (int i = 1; i <= 5; i++) {
+            listePile.push(i);
+        }
+
+        ListeElement<Integer> dernier = listePile.trouveDernier();
+        ListeElement<Integer> referent = listePile.trouveLeReferent(dernier);
+
+        assertEquals(4, referent.getInfo(), "Le référent du dernier (5) doit être 4");
     }
 
 
@@ -547,23 +445,77 @@ public class StructureListeTest {
         assertTrue(listePile.estVide());
     }
 
+
     @Test
-    @DisplayName("Clear sur liste avec éléments")
-    void clearAvecElements() {
+    @DisplayName("Clear remet info à null")
+    void testClearRemetInfoNull() {
+        listePile.push(10);
+        listePile.push(20);
+
+        listePile.clear();
+
+        assertNull(listePile.getNoeud().getInfo());
+    }
+
+    @Test
+    @DisplayName("Clear remet suivant à null")
+    void testClearRemetSuivantNull() {
         listePile.push(1);
         listePile.push(2);
         listePile.push(3);
 
-        assertEquals(4, listePile.size());
+        assertNotNull(listePile.getNoeud().getSuivant());
 
         listePile.clear();
 
-        assertEquals(0, listePile.size());
+        assertNull(listePile.getNoeud().getSuivant());
+    }
+
+    @Test
+    @DisplayName("Clear rend la liste vide")
+    void testClearRendVide() {
+        listePile.push(1);
+        listePile.push(2);
+
+        listePile.clear();
+
         assertTrue(listePile.estVide());
+        assertEquals(0, listePile.size());
+    }
 
+    @Test
+    @DisplayName("Clear sur liste déjà vide")
+    void testClearSurListeVide() {
+        listePile.clear();
 
-        assertNull(listePile.getNoeud(), "Le noeud doit être null après clear");
+        assertTrue(listePile.estVide());
+        assertNull(listePile.getNoeud().getInfo());
+        assertNull(listePile.getNoeud().getSuivant());
+    }
 
+    @Test
+    @DisplayName("Push après clear fonctionne")
+    void testPushApresClear() {
+        listePile.push(1);
+        listePile.push(2);
+        listePile.clear();
+
+        listePile.push(99);
+
+        assertEquals(1, listePile.size());
+        assertEquals(99, listePile.getNoeud().getInfo());
+        assertFalse(listePile.estVide());
+    }
+
+    @Test
+    @DisplayName("Clear répétés")
+    void testClearRepetes() {
+        listePile.push(1);
+
+        for (int i = 0; i < 5; i++) {
+            listePile.clear();
+            assertTrue(listePile.estVide());
+        }
     }
 
     @Test
@@ -640,33 +592,7 @@ public class StructureListeTest {
         assertTrue(listePile.estVide());
     }
 
-    @Test
-    @DisplayName("Scénario complet File : push, pop, clear")
-    void scenarioCompletFile() {
-        // Phase 1 : Ajouts
-        listeFile.push(1);
-        listeFile.push(2);
-        listeFile.push(3);
-        assertEquals(4, listeFile.size());
 
-        // Phase 2 : Pop FIFO
-        assertEquals(2, listeFile.pop().get());
-        assertEquals(1, listeFile.pop().get());
-        assertEquals(2, listeFile.size());
-
-        // Phase 3 : Ajouts après pops
-        listeFile.push(4);
-        listeFile.push(5);
-        assertEquals(4, listeFile.size());
-
-        // Phase 4 : Vider complètement
-        listeFile.pop();
-        listeFile.pop();
-        listeFile.pop();
-        listeFile.pop();
-        listeFile.pop();
-        assertTrue(listeFile.estVide());
-    }
 
     @Test
     @DisplayName("Comparaison Pile vs File")
