@@ -10,7 +10,6 @@ public class ListeFile<T> extends StructureListe<T> implements IFilePile<T> {
 
     public ListeFile(T info) {
         super(info);
-
     }
 
     public ListeFile() {
@@ -35,9 +34,12 @@ public class ListeFile<T> extends StructureListe<T> implements IFilePile<T> {
              //je dois vérifier ici
              //
         }
+        setNombre(getNombre() -1);
 
         return retour;
     }
+
+
 
 
 

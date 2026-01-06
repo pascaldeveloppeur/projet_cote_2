@@ -7,7 +7,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class ListeElementTest {
+public class ListeElementTest {
 
     private ListeElement<Integer> element;
 
@@ -19,13 +19,13 @@ class ListeElementTest {
 
 
         @Test
-        @DisplayName("Constructeur par défaut - doit créer un élément vide")
+        @DisplayName("Constructeur par défaut, il doit créer un élément vide")
         void testConstructeurParDefaut() {
-            ListeElement<Integer> elem = new ListeElement<>();
+            //ListeElement<Integer> element = new ListeElement<>();
 
-            assertNotNull(elem, "L'élément ne doit pas être null");
-            assertNull(elem.getInfo(), "L'info doit être null");
-            assertNull(elem.getSuivant(), "Le suivant doit être null");
+            assertNotNull(element, "L'élément ne doit pas être null");
+            assertNull(element.getInfo(), "L'info doit être null");
+            assertNull(element.getSuivant(), "Le suivant doit être null");
         }
 
         @Test
@@ -67,7 +67,7 @@ class ListeElementTest {
         }
 
         @Test
-        @DisplayName("Constructeur avec valeur zéro")
+        @DisplayName("Constructeur avec valeur à zéro")
         void testConstructeurAvecZero() {
             ListeElement<Integer> elem = new ListeElement<>(0);
 

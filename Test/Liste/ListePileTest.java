@@ -12,18 +12,17 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class ListePileTest {
 
-    IFilePile<Integer> listePile;
-    IFilePile<Integer> listeFile;
+    StructureListe<Integer> listePile;
+    ListeElement<Integer> listeElement;
 
     @BeforeEach
     void setUp() {
-        listePile = new ListePile<>();
-        listeFile = new ListeFile<>();
+        listePile = new ListePile<>(2);
+        listeElement = new ListeElement<>(4);
     }
     @AfterEach
     void tearDown() {
         if (listePile != null) listePile.clear();
-        if (listeFile != null) listeFile.clear();
     }
     @Test
     @DisplayName("Pop sur Pile vide doit retourner Optional.empty()")

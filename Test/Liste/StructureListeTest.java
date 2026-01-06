@@ -344,7 +344,7 @@ public class StructureListeTest {
 
 
     @Test
-    @DisplayName("estPleine doit toujours retourner false pour une liste")
+    @DisplayName("la methode doit toujours retourner false pour une liste")
     void estPleineToujoursFalse() {
         assertFalse(listePile.estPleine(), "Une liste vide ne peut pas être pleine");
 
@@ -353,7 +353,7 @@ public class StructureListeTest {
     }
 
     @Test
-    @DisplayName("estPleine même avec beaucoup d'éléments")
+    @DisplayName("la methode même avec beaucoup d'éléments")
     void estPleineAvecBeaucoupElements() {
         for (int i = 0; i < 1000; i++) {
             listePile.push(i);
@@ -364,7 +364,7 @@ public class StructureListeTest {
     }
 
     @Test
-    @DisplayName("estPleine sur File")
+    @DisplayName("la methode sur File")
     void estPleineSurFile() {
         assertFalse(listeFile.estPleine());
 
@@ -378,7 +378,7 @@ public class StructureListeTest {
 
 
     @Test
-    @DisplayName("estVide sur liste vide")
+    @DisplayName("Vide sur liste vide")
     void estVideSurListeVide() {
         assertFalse(listePile.estVide());
         assertFalse(listeFile.estVide());

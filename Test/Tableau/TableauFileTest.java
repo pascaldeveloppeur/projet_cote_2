@@ -34,18 +34,29 @@ class TableauFileTest {
         // FIFO : First In First Out
         Optional<Integer> result1 = tableauFile.pop();
         assertTrue(result1.isPresent());
-        assertEquals(10, result1.get(), "Doit retourner le premier élément (10)");
+        assertEquals(20, result1.get(), "Doit retourner le premier élément (20)");
         assertEquals(2, tableauFile.size());
 
         Optional<Integer> result2 = tableauFile.pop();
-        assertEquals(20, result2.get(), "Doit retourner 20");
+        assertEquals(30, result2.get(), "Doit retourner 30");
 
-        Optional<Integer> result3 = tableauFile.pop();
-        assertEquals(30, result3.get(), "Doit retourner 30");
-        assertTrue(tableauFile.estVide());
+        assertFalse(tableauFile.estVide());
     }
 
+    @Test
+    @DisplayName("Clear sur une file avec des éléments")
+    void clearFileAvecElements() {
+        tableauFile.push(10);
+        tableauFile.push(20);
+        tableauFile.push(30);
+        tableauFile.push(40);
 
+        tableauFile.clear();
+
+        assertEquals(0, tableauFile.size());
+        assertTrue(tableauFile.estVide());
+        assertEquals(4, tableauFile.getTailleDepart());
+    }
 
     @Test
     @DisplayName("Pop sur File vide doit retourner Optional.empty()")

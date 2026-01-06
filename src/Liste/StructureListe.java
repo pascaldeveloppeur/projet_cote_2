@@ -5,9 +5,11 @@ import Interface.IFilePile;
 public abstract class StructureListe<T> implements IFilePile<T> {
 
     private ListeElement<T> noeud;
+    private int nombre ;
 
     public StructureListe(T info) {
         this.noeud = new ListeElement<>(info);
+        this.nombre = 0;
     }
 
     public StructureListe() {}
@@ -29,6 +31,14 @@ public abstract class StructureListe<T> implements IFilePile<T> {
             }
         }
     }
+
+    public int getNombre() {
+        return nombre;
+    }
+    public void setNombre(int nombre) {
+        this.nombre = nombre;
+    }
+
     public ListeElement<T> trouveLeReferent(ListeElement<T> reference) {
         ListeElement<T> p = this.getNoeud();
         while (p.getSuivant() != reference) {
@@ -39,8 +49,8 @@ public abstract class StructureListe<T> implements IFilePile<T> {
 
     public int size() {
         ListeElement<T> p = this.noeud;
-        var nombre = 0;
-        if (p.getInfo() != null) nombre++;
+        //var nombre = 0;
+        //if (p.getInfo() != null) nombre++;
         while (p.getSuivant() != null) {
             p = p.getSuivant();
             nombre++;

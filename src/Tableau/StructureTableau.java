@@ -61,6 +61,7 @@ public abstract class StructureTableau<T> implements IFilePile<T> {
         this.tableau = tableau;
     }
 
+
     public void setTailleDepart(int tailleDepart) {
         this.tailleDepart = tailleDepart;
     }
